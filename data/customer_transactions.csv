@@ -1,0 +1,2 @@
+transaction_id,timestamp,amount,currency,instrument_type,region,trade_type,status
+TX10001,2025-04-01T13:45:00Z,1200000,USD,IRS,EU,New,Settled

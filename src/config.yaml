@@ -1,0 +1,5 @@
+eligibility_rules:
+  min_amount: 1000000
+  valid_trade_types: ["New", "Amend"]
+  valid_status: "Settled"
+  valid_regions: ["EU", "APAC"]
