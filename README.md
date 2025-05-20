@@ -57,3 +57,5 @@ docker-compose up --build
 - Integrate AWS S3 input/output
 - Add Prometheus metrics
 - Improve configuration modularity
+- Quantify performance
+- Define architecture for handling millions of transactions per hour
