@@ -1,8 +1,0 @@
-version: "3.8"
-services:
-  recon:
-    build: .
-    volumes:
-      - .:/app
-    environment:
-      - CONFIG_FILE=config.yaml

@@ -7,17 +7,17 @@ from novatus_utils.sockets_ports import port_in_use
 from sqlalchemy import Engine, create_engine
 
 
-def create_postgres_container(container_name: str, port: int = 5432, host: str = "127.0.0.1", **docker_env_vars):
+def create_postgres_container(container_name: str, host_port: int = 5432, host: str = "127.0.0.1", **docker_env_vars):
     """Creates a postgres db in a docker container"""
     client = docker.from_env()
     container_names = [container.name for container in client.containers.list()]
-    if container_name not in container_names and not port_in_use(port, host):
+    if container_name not in container_names and not port_in_use(host_port, host):
         client.containers.run(
             "postgres",
             environment={**docker_env_vars},
             detach=True,
             name=container_name,
-            ports={f"{port}/tcp": (host, port)},
+            ports={"5432/tcp": (host, host_port)},
         )
         time.sleep(1)  # Needed as sometimes a delay to build
 
@@ -31,6 +31,6 @@ def destroy_postgres_container(container_name: str):
 
 
 def create_postgres_sqlalchemy_engine(
-    user: str, password: str, host: str = "127.0.0.1", db_name: str = "postgres", echo: bool = False
+    user: str, password: str, host: str = "127.0.0.1", db_name: str = "postgres", port: int = 5432, echo: bool = False
 ) -> Engine:
-    return create_engine(f"postgresql+psycopg2://{user}:{password}@{host}/{db_name}", echo=echo)
+    return create_engine(f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}", echo=echo)

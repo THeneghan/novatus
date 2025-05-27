@@ -24,6 +24,9 @@ pyyaml = "^6.0.2"
 faker = "^37.3.0"
 fastapi = "^0.115.12"
 uvicorn = "^0.34.2"
+sqlmodel = "^0.0.24"
+sqlalchemy-utils = "^0.41.2"
+sqlalchemy-mixins = "^2.0.5"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.3.2"
@@ -87,4 +90,4 @@ ignore = [ # As per https://docs.astral.sh/ruff/formatter/#format-suppression
 pythonpath = [
   "src"
 ]
-testpaths = ["tests","src"]
+testpaths = ["tests"]
