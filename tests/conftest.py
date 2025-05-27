@@ -3,6 +3,8 @@
 import psycopg2
 import pytest
 from novatus_utils.db import create_postgres_container, destroy_postgres_container
+from novatus_utils.sqlalchemy_utils import create_schema, delete_tables
+from sqlalchemy import create_engine
 
 
 @pytest.fixture(scope="module")
@@ -39,6 +41,14 @@ def create_then_destroy_local_db(pg_password, container_name, db_name, port):
     destroy_postgres_container(container_name=container_name)
 
 
+@pytest.fixture(scope="function")
+def create_then_destroy_tables(pg_password, container_name, db_name, port, local_db_connection):
+    engine = create_engine("postgresql+psycopg2://", creator=lambda: local_db_connection)
+    create_schema(engine)
+    yield
+    delete_tables(engine)
+
+
 @pytest.fixture(scope="module")
 def local_db_connection(pg_password, local_host, port, create_then_destroy_local_db, db_name):
     conn = psycopg2.connect(database=db_name, password=pg_password, host=local_host, port=port, user="postgres")
@@ -54,17 +64,3 @@ def container_name():
 @pytest.fixture(scope="module")
 def db_name():
     return "novatus"
-
-
-@pytest.fixture
-def setup_simple_table(table_name, local_db_connection):
-    with local_db_connection:
-        with local_db_connection.cursor() as curs:
-            curs.execute(f"""CREATE TABLE {table_name} (id serial PRIMARY KEY, num integer, data varchar);""")
-
-
-@pytest.fixture
-def simple_data_entry(table_name, setup_simple_table, local_db_connection):
-    with local_db_connection:
-        with local_db_connection.cursor() as curs:
-            curs.execute(f"""INSERT INTO {table_name} (id, num,data) VALUES (%s, %s, %s)""", (1, 1, "def"))

@@ -37,7 +37,7 @@ def read_customer_transaction_record(transaction: CustomerTransactionModel):
     df = pd.DataFrame.from_dict(transaction.model_dump())
 
     df.to_sql(name=CustomerTransactions.__tablename__, con=engine, if_exists="append", index=False)
-    return {"Inserted"}
+    return {"Inserted": transaction.model_dump()}
 
 
 if __name__ == "__main__":
