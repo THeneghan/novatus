@@ -32,7 +32,7 @@ _src/main.py_ creates the postgres container, schema, data etc and will print ou
 
 _src/novatus_api/main.py_ starts the proof of concept Fast API service, leave this running to use it to interact with the API.
 
-_python src/api_demo.py_ # will send a JSON to the API which will be written to the customer transaction table (assume both previous scripts have been ran)
+_python src/api_demo.py_ will send a JSON to the API which will be written to the customer transaction table (assume both previous scripts have been ran)
 ```bash
 python src/main.py 
 python src/novatus_api/main.py 
